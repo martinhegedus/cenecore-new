@@ -147,9 +147,6 @@ class CmsMediaFoundationTest extends TestCase
 
     protected function pngUpload(string $name): UploadedFile
     {
-        return UploadedFile::fake()->createWithContent(
-            $name,
-            base64_decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/p9sAAAAASUVORK5CYII=')
-        );
+        return UploadedFile::fake()->image($name, 10, 10)->size(1);
     }
 }

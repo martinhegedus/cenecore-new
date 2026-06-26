@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Support\Locale;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -29,10 +30,25 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $locale = app()->getLocale();
+
         return [
             ...parent::share($request),
             'auth' => [
                 'user' => $request->user(),
+            ],
+            'public' => [
+                'locale' => $locale,
+                'publicLocalePrefix' => Locale::prefix($locale),
+                'supportedLocales' => collect(Locale::locales())
+                    ->map(fn (string $label, string $code): array => [
+                        'code' => $code,
+                        'label' => $label,
+                        'prefix' => Locale::prefix($code),
+                    ])
+                    ->values()
+                    ->all(),
+                'contact' => config('site.contact'),
             ],
         ];
     }
