@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\HasCmsMedia;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -10,9 +11,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use InvalidArgumentException;
+use Spatie\MediaLibrary\HasMedia;
 
-class Testimonial extends Model
+class Testimonial extends Model implements HasMedia
 {
+    use HasCmsMedia;
     use HasFactory;
     use SoftDeletes;
 
@@ -24,6 +27,13 @@ class Testimonial extends Model
             'is_active' => 'boolean',
             'is_featured' => 'boolean',
             'rating' => 'integer',
+        ];
+    }
+
+    public static function cmsMediaCollections(): array
+    {
+        return [
+            'avatar' => ['single' => true, 'mime_types' => ['image/jpeg', 'image/png', 'image/webp']],
         ];
     }
 

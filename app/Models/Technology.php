@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\HasCmsMedia;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -9,9 +10,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\MediaLibrary\HasMedia;
 
-class Technology extends Model
+class Technology extends Model implements HasMedia
 {
+    use HasCmsMedia;
     use HasFactory;
     use SoftDeletes;
 
@@ -22,6 +25,13 @@ class Technology extends Model
         return [
             'is_active' => 'boolean',
             'is_featured' => 'boolean',
+        ];
+    }
+
+    public static function cmsMediaCollections(): array
+    {
+        return [
+            'icon' => ['single' => true, 'mime_types' => ['image/jpeg', 'image/png', 'image/webp', 'image/svg+xml']],
         ];
     }
 

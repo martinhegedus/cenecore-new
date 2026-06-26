@@ -12,6 +12,7 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -67,6 +68,25 @@ class ServiceResource extends Resource
                             ->native(false),
                         DateTimePicker::make('published_at')
                             ->label('Publikované'),
+                    ]),
+                ]),
+            Section::make('Médiá')
+                ->schema([
+                    Grid::make(2)->schema([
+                        FileUpload::make('cover_upload')
+                            ->label('Titulný obrázok')
+                            ->image()
+                            ->imagePreviewHeight('180')
+                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                            ->maxSize(5120)
+                            ->storeFiles(false),
+                        FileUpload::make('og_upload')
+                            ->label('OG obrázok')
+                            ->image()
+                            ->imagePreviewHeight('180')
+                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                            ->maxSize(5120)
+                            ->storeFiles(false),
                     ]),
                 ]),
             ResourceTranslations::tabs(self::translationFields()),

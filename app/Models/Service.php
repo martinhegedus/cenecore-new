@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\HasCmsMedia;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -10,9 +11,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\MediaLibrary\HasMedia;
 
-class Service extends Model
+class Service extends Model implements HasMedia
 {
+    use HasCmsMedia;
     use HasFactory;
     use SoftDeletes;
 
@@ -23,6 +26,15 @@ class Service extends Model
         return [
             'is_featured' => 'boolean',
             'published_at' => 'datetime',
+        ];
+    }
+
+    public static function cmsMediaCollections(): array
+    {
+        return [
+            'cover' => ['single' => true, 'mime_types' => ['image/jpeg', 'image/png', 'image/webp']],
+            'content' => ['mime_types' => ['image/jpeg', 'image/png', 'image/webp', 'image/svg+xml']],
+            'og' => ['single' => true, 'mime_types' => ['image/jpeg', 'image/png', 'image/webp']],
         ];
     }
 

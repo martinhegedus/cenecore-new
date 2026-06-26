@@ -2,15 +2,18 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\HasCmsMedia;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\MediaLibrary\HasMedia;
 
-class ProjectCategory extends Model
+class ProjectCategory extends Model implements HasMedia
 {
+    use HasCmsMedia;
     use HasFactory;
     use SoftDeletes;
 
@@ -20,6 +23,13 @@ class ProjectCategory extends Model
     {
         return [
             'is_active' => 'boolean',
+        ];
+    }
+
+    public static function cmsMediaCollections(): array
+    {
+        return [
+            'cover' => ['single' => true, 'mime_types' => ['image/jpeg', 'image/png', 'image/webp']],
         ];
     }
 
