@@ -30,12 +30,6 @@ import { Link } from '@inertiajs/vue3';
                         >
                             Log in
                         </Link>
-                        <Link
-                            :href="route('register')"
-                            class="rounded-md bg-gray-950 px-3 py-2 text-white hover:bg-gray-800"
-                        >
-                            Register
-                        </Link>
                     </template>
                 </nav>
             </div>
